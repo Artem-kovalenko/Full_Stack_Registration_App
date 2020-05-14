@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -18,3 +19,4 @@ app.use("/users", Users)
 app.listen(port, function() {
     console.log("Server is running on port " + port)
 })
+

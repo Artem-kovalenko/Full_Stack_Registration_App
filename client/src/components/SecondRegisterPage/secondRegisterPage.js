@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
-import { participantRegister } from '../store/types'
+import { participantRegister } from "../../store/types";
 import axios from "axios";
 import 'antd/dist/antd.css';
+import history from '../../history';
+import { FromWrapper } from "./secondRegisterPageStyled";
 import {
   Form,
   Input,
@@ -27,17 +29,18 @@ const SecondRegisterPage = () => {
     };
     
     const dispatch = useDispatch()
-
+    const { participantData }  = useSelector(state => state.participantData.data)
+    const { participantInfo } = useSelector(state => state.participantData.data)
 
     // === DATE OF ARRIVAL AND DEPARTURE ===
     const [ArrDate, setArrDate] = useState("")
     const [DepDate, setDepDate] = useState("")
     const ArrDepDateChanges = (data) => {
         let ArrDateStr =  data[0]._d.toString()
-        let AddDateSubstr = ArrDateStr.substr(0, ArrDateStr.length - 50)
+        let AddDateSubstr = ArrDateStr.substr(0, ArrDateStr.length - 51)
     
         let DepDateStr =  data[1]._d.toString()
-        let DepDateSubstr = DepDateStr.substr(0, DepDateStr.length - 50)
+        let DepDateSubstr = DepDateStr.substr(0, DepDateStr.length - 51)
         
         setArrDate(AddDateSubstr)
         setDepDate(DepDateSubstr);
@@ -79,36 +82,40 @@ const SecondRegisterPage = () => {
         setCountry(value)
     }
 
- 
+    const participantSendInfo = () => {
+        const participantInfoPayload = { ArrDate, DepDate, companyName, companyPosition, companyRole, gender, birthDate, country }
+        dispatch(participantRegister(participantInfoPayload))
+    }
 
-    const participantRegister = () => {
-        const participantInfo = { ArrDate, DepDate, companyName, companyPosition, companyRole, gender, birthDate, country }
-        dispatch(participantRegister(participantInfo))
-
-        // return axios
-        // .post('users/register', {
-        //     main_role: "test2",
-        //     first_name: "test2",
-        //     last_name: "test2",
-        //     email: "test2@test2.com",
-        //     dateofarrivalanddeparture: "12.05.2020-15.05.2020",
-        //     company_name: "test2",
-        //     position_in_company: "test2",
-        //     participant_role: "test2",
-        //     sex: "test2",
-        //     birthday: "2",
-        //     county_name: "test2",
-        //     status: "test2"
-        // })
-        // .then(res => {
-        //     console.log("Registered")
-        // })
+    const participantAddToDb = () => {
+        return axios
+        .post('users/register', {
+            main_role: "participant",
+            first_name: participantData.firstName,
+            last_name: participantData.lastName,
+            email: participantData.email,
+            dateofarrivalanddeparture: participantInfo.ArrDate + " - " + participantInfo.DepDate,
+            company_name: participantInfo.companyName,
+            position_in_company: participantInfo.companyPosition,
+            participant_role: participantInfo.companyRole,
+            sex: participantInfo.gender,    
+            birthday: participantInfo.birthDate,
+            county_name: participantInfo.country,
+            status: "Not confirmed"
+        })
+        .then(res => {
+            if(res.data.status === "faild") {
+                alert("This email is already registered")
+            } else {
+                history.push('/success_register')
+            }
+            console.log(res.data.status)
+        })
     } 
 
     return (
-        <div>
-            <br/><br/><br/><br/><br/><br/><br/>
-            <Form onFinish={participantRegister}
+        <FromWrapper>
+            <Form onFinish={participantAddToDb}
             validateMessages={validateMessages}
             labelCol={{span: 9}}
             wrapperCol={{span: 5}}
@@ -116,7 +123,7 @@ const SecondRegisterPage = () => {
             initialValues={{
                 remember: true,
               }}
-            > 
+            >
                 <Form.Item
                     label="Choose your date of arrival and date of departure"
                     name={['user', 'date']}  
@@ -190,7 +197,7 @@ const SecondRegisterPage = () => {
                 </Form.Item>
 
                 <Form.Item label="Button">
-                    <Button type="primary" htmlType="submit">
+                    <Button onClick={participantSendInfo} type="primary" htmlType="submit">
                         Submit
                     </Button>
                     <Button>
@@ -198,7 +205,7 @@ const SecondRegisterPage = () => {
                     </Button>
                 </Form.Item>
             </Form>
-        </div>
+        </FromWrapper>
     );
 }
 

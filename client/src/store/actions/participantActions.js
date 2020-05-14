@@ -9,11 +9,11 @@ export const saveData = (dataObj) => {
     }
 }
 
-export const participantRegister = (participantInfo) => {
+export const participantRegister = (participantInfoPayload) => {
     return {
         type: type.PARTICIPANT_REGISTER,
         payload: {
-            participantInfo
+            participantInfoPayload
         }
     }
 }

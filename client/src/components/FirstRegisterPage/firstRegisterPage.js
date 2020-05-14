@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { saveData } from "../store/types";
+import { saveData } from "../../store/types";
 import { Form, Input, Button } from "antd";
+import { FromWrapper } from "./firstRegisterPageStyled";
 import "antd/dist/antd.css";
 
 // ReactDOM.render(<DatePicker />, mountNode);
@@ -19,8 +20,9 @@ const FirstRegisterPage = () => {
     };
 
     const dispatch = useDispatch();
-    const { data } = useSelector(state => state.participantData)
-    
+
+    const {participantData} = useSelector(state => state.participantData.data)
+ 
     // создаём перменные для записи в них данных пользователя и добавляем в обьект который будем дистпатчить
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -41,10 +43,9 @@ const FirstRegisterPage = () => {
         const dataObj = { firstName, lastName, email };
         dispatch(saveData(dataObj))
     };
-    // сделать styled form
+  
     return (
-        <div>
-            <br/><br/><br/><br/><br/><br/><br/>
+        <FromWrapper>
             <Form
                 validateMessages={validateMessages}
                 labelCol={{ span: 9 }}
@@ -56,7 +57,7 @@ const FirstRegisterPage = () => {
                 label="First Name"
                 rules={[{ required: true }]}
                 >
-                    <Input defaultValue={data.firstName} onChange={firstNameChanging} />
+                    <Input defaultValue={participantData.firstName} onChange={firstNameChanging} />
                 </Form.Item>
 
                 <Form.Item
@@ -64,7 +65,7 @@ const FirstRegisterPage = () => {
                 label="Last Name"
                 rules={[{ required: true }]}
                 >
-                    <Input defaultValue={data.lastName} onChange={lastNameChanging} />
+                    <Input defaultValue={participantData.lastName} onChange={lastNameChanging} />
                 </Form.Item>
 
                 <Form.Item
@@ -72,7 +73,7 @@ const FirstRegisterPage = () => {
                 label="Email"
                 rules={[{ type: "email", required: true }]}
                 >
-                    <Input defaultValue={data.email} onChange={emailChanging} />
+                    <Input defaultValue={participantData.email} onChange={emailChanging} />
                 </Form.Item>
 
                 <Form.Item label="Next Step">
@@ -82,7 +83,7 @@ const FirstRegisterPage = () => {
                     </Link>
                 </Form.Item>
             </Form>
-        </div>
+        </FromWrapper>
     );
 };
 
