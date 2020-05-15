@@ -36,6 +36,7 @@ const SecondRegisterPage = () => {
     const [ArrDate, setArrDate] = useState("")
     const [DepDate, setDepDate] = useState("")
     const ArrDepDateChanges = (data) => {
+        console.log(data)
         let ArrDateStr =  data[0]._d.toString()
         let AddDateSubstr = ArrDateStr.substr(0, ArrDateStr.length - 51)
     
@@ -74,6 +75,7 @@ const SecondRegisterPage = () => {
     const [birthDate, setBirthDate] = useState("")
     const birthDateChanges = (data)=> {
         setBirthDate(data._i)
+        console.log(data)
     }
 
     // === COUNTRY ===
@@ -94,7 +96,8 @@ const SecondRegisterPage = () => {
             first_name: participantData.firstName,
             last_name: participantData.lastName,
             email: participantData.email,
-            dateofarrivalanddeparture: participantInfo.ArrDate + " - " + participantInfo.DepDate,
+            arrival: participantInfo.ArrDate,
+            departure: participantInfo.DepDate,
             company_name: participantInfo.companyName,
             position_in_company: participantInfo.companyPosition,
             participant_role: participantInfo.companyRole,

@@ -16,6 +16,7 @@ export const Title = styled.h2`
 `
 
 export const Button = styled.button`
+    cursor: pointer;
     color:#ecaf00;
     margin-top:20px;
     border: 1px solid #ecaf00;

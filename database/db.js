@@ -5,7 +5,7 @@ const sequelize = new Sequelize("reg_app", "root", "cubex", {
     dialect: "mariadb",
 
     pool: {
-        max: 4,
+        max: 5,
         min: 0,
         acquire: 30000,
         idle: 10000

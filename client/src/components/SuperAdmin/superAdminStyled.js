@@ -1,27 +1,24 @@
 import styled from "styled-components";
 
-export const PageWrapper = styled.div`
+export const Wrapper = styled.div`
     display: flex;
     justify-content: center;
-    align-items:center;
-    flex-direction:column;
-    border: 1px solid #78aeff;
-    margin: 250px 300px 0 300px;
-    padding: 45px;
-    border-radius: 35px;
+    
 `
 
-export const Title = styled.h2`
-    font-size: 30px;
-`
-
-export const Message = styled.p`
-    font-size: 17px;
-    text-align: center;
-    margin: 15px 0 30px 0;
+export const HeaderNav = styled.div`
+    border-radius: 10px;
+    margin: 10px;
+    width: 55%;
+    display: flex;
+    justify-content: space-evenly;
+    height: 70px;
+    align-items: center;
+    background-color: #00d0ff6b;
 `
 
 export const Button = styled.button`
+    outline: none;
     cursor: pointer;
     border: 1px solid #0095ff;
     padding: 7px 21px;
@@ -32,5 +29,5 @@ export const Button = styled.button`
     &:hover {
         background-color: #0095ff;
         color:white;
-      }
+    }
 `

@@ -12,8 +12,11 @@ module.exports = db.sequelize.define(
         main_role: {
             type: Sequelize.STRING
         },
-        user_name: {
-            type: Sequelize.STRING
+        user_email: {
+            type: Sequelize.STRING,
+            validate: {
+                isEmail: true
+            }
         },
         password: {
             type: Sequelize.STRING
@@ -24,13 +27,10 @@ module.exports = db.sequelize.define(
         last_name: {
             type: Sequelize.STRING
         },
-        email: {
-            type: Sequelize.STRING,
-            validate: {
-                isEmail: true
-            }
+        departure: {
+            type: Sequelize.STRING
         },
-        dateofarrivalanddeparture: {
+        arrival: {
             type: Sequelize.STRING
         },
         company_name: {
@@ -46,7 +46,7 @@ module.exports = db.sequelize.define(
             type: Sequelize.STRING
         },
         birthday: {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING
         },
         county_name: {
             type: Sequelize.STRING

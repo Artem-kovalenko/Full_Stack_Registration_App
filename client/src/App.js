@@ -5,8 +5,9 @@ import history from './history';
 import FirstRegisterPage from './components/FirstRegisterPage/firstRegisterPage';
 import SecondRegisterPage from './components/SecondRegisterPage/secondRegisterPage';
 import Home from './components/Home/home';
-import AdminPage from './components/AdminPage/adminPage';
+import AdminLogin from './components/AdminLogin/adminLogin';
 import SuccessRegisterPage from "./components/SuccessRegisterPage/successRegisterPage";
+import SuperAdminPage from "./components/SuperAdmin/superAdminPage";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route exact path="/second_register" component={SecondRegisterPage} />
         <Route exact path="/success_register" component={SuccessRegisterPage} />
 
-        <Route exact path="/admin" component={AdminPage} />
+        <Route exact path="/admin" component={AdminLogin} />
+        <Route exact path="/superAdmin_page" component={SuperAdminPage} />
       </div>
     </Router>
   );

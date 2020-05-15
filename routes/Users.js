@@ -9,18 +9,17 @@ require('dotenv').config();
 const User = require("../models/User");
 users.use(cors());
 
-process.env.SECRET_KEY = 'secret';
-
-
 
 users.post("/register", (req, res) => {
     const today = new Date().toLocaleString()
+    const todaySubStr = today.substr(0, today.length - 3)
     const userData = {
         main_role: req.body.main_role,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        email: req.body.email,
-        dateofarrivalanddeparture: req.body.dateofarrivalanddeparture,
+        user_email: req.body.email,
+        arrival: req.body.arrival,
+        departure: req.body.departure,
         company_name: req.body.company_name,
         position_in_company: req.body.position_in_company,
         participant_role: req.body.participant_role,
@@ -28,8 +27,9 @@ users.post("/register", (req, res) => {
         birthday: req.body.birthday,
         county_name: req.body.county_name,
         status: req.body.status,
-        created: today
+        created: todaySubStr
     }
+    console.log(req.body)
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -47,14 +47,14 @@ users.post("/register", (req, res) => {
 
     User.findOne({
         where: {
-            email: req.body.email
+            user_email: req.body.email
         }
     })
     .then(user => {
         if (!user) {
             User.create(userData)
             .then(user => {
-                res.json({errorText: user.email +" registered", status: "success"})
+                res.json({errorText: user.user_email +" registered", status: "success"})
             })
             .then(() => {
                 // sending mail to the participant email
