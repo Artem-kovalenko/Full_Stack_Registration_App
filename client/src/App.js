@@ -2,12 +2,14 @@ import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import history from './history';
 
-import FirstRegisterPage from './components/FirstRegisterPage/firstRegisterPage';
-import SecondRegisterPage from './components/SecondRegisterPage/secondRegisterPage';
+import FirstRegisterPage from './components/FirstRegister/firstRegisterPage';
+import SecondRegisterPage from './components/SecondRegister/secondRegisterPage';
 import Home from './components/Home/home';
 import AdminLogin from './components/AdminLogin/adminLogin';
-import SuccessRegisterPage from "./components/SuccessRegisterPage/successRegisterPage";
+import SuccessRegisterPage from "./components/SuccessRegister/successRegisterPage";
 import SuperAdminPage from "./components/SuperAdmin/superAdminPage";
+import UsersGetData from "./components/Users/usersGetData";
+import ParticipantsPage from "./components/Participants/participantsPage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
 
         <Route exact path="/admin" component={AdminLogin} />
         <Route exact path="/superAdmin_page" component={SuperAdminPage} />
+        <Route exact path="/users_page" component={UsersGetData} />
+        <Route exact path="/participants_page" component={ParticipantsPage} />
       </div>
     </Router>
   );

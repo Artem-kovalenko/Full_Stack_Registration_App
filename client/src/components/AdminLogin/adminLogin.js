@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { Link } from "react-router-dom";
 import { FromWrapper } from "./adminLoginStyled";
 import axios from "axios";
 import history from '../../history';
@@ -34,24 +33,36 @@ const AdminLogin = () => {
         })
         .then(res => {
             console.log(res)
-            if(res.status === 200) {
+            if(res) {
                 if(adminEmail === "superadmin@gmail.com"){
                     history.push("/superAdmin_page")
                 } else {history.push("/admin_page")}
                
-            } else {
-                alert("Wrong email or password")
-                console.log(res)
             }
         })
         .catch(err => {
             console.log(err)
+            alert("Wrong password or email, please try again")
         })
     }
 
+    // const createSuper = () => {
+    //     return axios
+    //         .post('admins/createSup', {
+    //             user_email: adminEmail,
+    //             password: adminPassword,
+    //             main_role: "superadmin"
+    //         })
+    //         .then(res => {
+    //             console.log(res)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
+
     return (
         <FromWrapper>
-            <h3>Admin Page</h3>
             <Form onFinish={adminLogIn}
                 validateMessages={validateMessages}
                 labelCol={{ span: 9 }}
@@ -77,7 +88,6 @@ const AdminLogin = () => {
                     <Form.Item label="Log in:">
                         <Button type="primary" htmlType="submit">Login</Button>
                     </Form.Item>
-
             </Form>
         </FromWrapper>
     );
