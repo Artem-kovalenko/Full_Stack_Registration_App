@@ -1,7 +1,8 @@
 import * as type from "../types";
 
 const initialState = {
-    admins: {}
+    adminsChild: {},
+    currentAdmin:{}
 }
 
 const adminsReducer = (state = initialState, action) => {
@@ -9,11 +10,19 @@ const adminsReducer = (state = initialState, action) => {
 
         case type.GET_ADMINS: {
             return {
-                    ...state.admins,
-                    "admins": action.payload.dataArray
+                    ...state,
+                adminsChild:action.payload.dataArray
                 }
             }
 
+        case type.SET_CURRENT_ADMIN: {
+            return {
+                ...state,
+                currentAdmin: action.payload.currentAdmin
+
+
+            }
+        }
 
         default:
             return state

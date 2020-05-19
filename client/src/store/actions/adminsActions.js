@@ -8,3 +8,13 @@ export const getAdmins = (dataArray) => {
         }
     }
 }
+
+export const setCurrentAdmin = (currentAdmin) => {
+    return {
+        type: type.SET_CURRENT_ADMIN,
+        payload:{
+            currentAdmin
+        }
+    }
+}
+

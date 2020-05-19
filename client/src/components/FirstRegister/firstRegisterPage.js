@@ -21,7 +21,7 @@ const FirstRegisterPage = () => {
 
     const dispatch = useDispatch();
 
-    const {participantData} = useSelector(state => state.participantData.data)
+    const { participantData } = useSelector(state => state.participantData.data)
  
     // создаём перменные для записи в них данных пользователя и добавляем в обьект который будем дистпатчить
     const [firstName, setFirstName] = useState("");

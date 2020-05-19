@@ -10,6 +10,8 @@ import SuccessRegisterPage from "./components/SuccessRegister/successRegisterPag
 import SuperAdminPage from "./components/SuperAdmin/superAdminPage";
 import UsersGetData from "./components/Users/usersGetData";
 import ParticipantsPage from "./components/Participants/participantsPage";
+import CreateUserPage from './components/CreateUser/createUserPage';
+import GetCurrentAdminData from "./components/EditUser/getCurrentAdminData";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route exact path="/superAdmin_page" component={SuperAdminPage} />
         <Route exact path="/users_page" component={UsersGetData} />
         <Route exact path="/participants_page" component={ParticipantsPage} />
+        <Route exact path="/create_user" component={CreateUserPage} />
+        <Route exact path="/edit_user:id?" component={GetCurrentAdminData} />
       </div>
     </Router>
   );

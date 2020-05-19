@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Wrapper, Table, Th, Td, Button } from "./usersPageStyled";
 import { Link } from "react-router-dom";
+import history from '../../history';
 import {
     useTable,
     useGroupBy,
@@ -12,22 +13,25 @@ import {
 } from 'react-table'
 
 
-
 const UsersPage = () => {
 
-    const { admins } = useSelector(state => state.admins)
-    console.log(admins)
+    const { adminsChild } = useSelector(state => state.admins)
 
     const data = React.useMemo(
-        () => admins.map((admin) => {
+        () => adminsChild.map((admin) => {
             return {
                         col1: admin.first_name,
                         col2: admin.last_name,
-                        col3: admin.user_email
+                        col3: admin.user_email,
+                        col4: admin.id
                     }
         })
-
     )
+
+    const clicked = (e) => {
+        let editUrl = `/edit_user${e.currentTarget.id}`;
+        history.push(editUrl)
+    }
 
     const columns = React.useMemo(
         () => [
@@ -46,13 +50,15 @@ const UsersPage = () => {
             {
                 Header: 'Edit',
                 Cell: ({ row }) => (
-                    <button onClick={null}>
-                        Edit
-                    </button>
+
+                        <button id={row.original.col4} onClick={clicked}>
+                            Edit
+                        </button>
+
                 )
             },
             {
-                Header: 'Delete',
+                Header: `Delete`,
                 Cell: ({ row }) => (
                     <button onClick={null}>
                         Delete
