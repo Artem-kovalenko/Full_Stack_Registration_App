@@ -82,5 +82,17 @@ users.post("/register", (req, res) => {
     })
 })
 
+users.get("/getParticipants", (req, res) => {
+    User.findAll({
+        where: {
+            main_role: "participant"
+        }
+    })
+        .then(users => {
+            let participants = JSON.stringify(users, null, 2)
+            res.send(participants)
+        })
+})
+
 module.exports = users;
 

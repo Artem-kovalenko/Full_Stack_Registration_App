@@ -57,7 +57,7 @@ const FirstRegisterPage = () => {
                 label="First Name"
                 rules={[{ required: true }]}
                 >
-                    <Input defaultValue={participantData.firstName} onChange={firstNameChanging} />
+                    <Input defaultValue={participantData !== undefined ? participantData.firstName: null} onChange={firstNameChanging} />
                 </Form.Item>
 
                 <Form.Item
@@ -65,7 +65,7 @@ const FirstRegisterPage = () => {
                 label="Last Name"
                 rules={[{ required: true }]}
                 >
-                    <Input defaultValue={participantData.lastName} onChange={lastNameChanging} />
+                    <Input defaultValue={participantData !== undefined ? participantData.lastName: null} onChange={lastNameChanging} />
                 </Form.Item>
 
                 <Form.Item
@@ -73,7 +73,7 @@ const FirstRegisterPage = () => {
                 label="Email"
                 rules={[{ type: "email", required: true }]}
                 >
-                    <Input defaultValue={participantData.email} onChange={emailChanging} />
+                    <Input defaultValue={participantData !== undefined ? participantData.email: null} onChange={emailChanging} />
                 </Form.Item>
 
                 <Form.Item label="Next Step">

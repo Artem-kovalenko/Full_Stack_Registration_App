@@ -1,21 +1,22 @@
 import React, {useState} from "react";
 import axios from "axios";
-import { getAdmins } from "../../store/types";
+import { getParticipants } from "../../store/types";
 import { useDispatch } from "react-redux";
-import UsersPage from "./usersPage";
+import App from "./participantsPage";
 
 
 
-const UsersGetData = () => {
+const ParticipantsGetData = () => {
+
     const dispath = useDispatch();
 
     const [dataIsReady, setData] = useState(false);
 
-    axios.get('admins/getAdmins')
+    axios.get('users/getParticipants')
         .then(res => {
 
-            const dataArray = res.data;
-            dispath(getAdmins(dataArray))
+            const participantsArray = res.data;
+            dispath(getParticipants(participantsArray))
             setData(true)
 
         })
@@ -26,9 +27,9 @@ const UsersGetData = () => {
         });
 
     return (
-        dataIsReady && <UsersPage/>
+        dataIsReady && <App/>
     )
 
 }
 
-export default UsersGetData
+export default ParticipantsGetData

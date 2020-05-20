@@ -17,3 +17,12 @@ export const participantRegister = (participantInfoPayload) => {
         }
     }
 }
+
+export const getParticipants = (participantsArray) => {
+    return {
+        type: type.GET_PARTICIPANTS,
+        payload: {
+            participantsArray
+        }
+    }
+}

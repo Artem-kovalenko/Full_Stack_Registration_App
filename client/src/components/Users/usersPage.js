@@ -1,8 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Wrapper, Table, Th, Td, Button } from "./usersPageStyled";
-import { Link } from "react-router-dom";
+import {Wrapper, Table, Th, Td, Button} from "./usersPageStyled";
+import { getAdmins } from "../../store/types";
+import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import history from '../../history';
+import React from "react";
+import axios from "axios";
 import {
     useTable,
     useGroupBy,
@@ -14,23 +16,40 @@ import {
 
 
 const UsersPage = () => {
-
-    const { adminsChild } = useSelector(state => state.admins)
+    const dispath = useDispatch();
+    const {adminsChild} = useSelector(state => state.admins)
 
     const data = React.useMemo(
         () => adminsChild.map((admin) => {
             return {
-                        col1: admin.first_name,
-                        col2: admin.last_name,
-                        col3: admin.user_email,
-                        col4: admin.id
-                    }
+                col1: admin.first_name,
+                col2: admin.last_name,
+                col3: admin.user_email,
+                col4: admin.id
+            }
         })
     )
 
-    const clicked = (e) => {
+    const goToEditPage = (e) => {
         let editUrl = `/edit_user${e.currentTarget.id}`;
         history.push(editUrl)
+    }
+
+    const deleteUser = (e) => {
+        const clickedUserId = e.currentTarget.id;
+        return axios
+            .post('admins/delete', {
+                id: clickedUserId
+            })
+            .then(() => {
+
+                const newAdminsChild = adminsChild.filter(item => item.id !== parseInt(clickedUserId))
+                dispath(getAdmins(newAdminsChild))
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const columns = React.useMemo(
@@ -49,18 +68,16 @@ const UsersPage = () => {
             },
             {
                 Header: 'Edit',
-                Cell: ({ row }) => (
-
-                        <button id={row.original.col4} onClick={clicked}>
-                            Edit
-                        </button>
-
+                Cell: ({row}) => (
+                    <button id={row.original.col4} onClick={goToEditPage}>
+                        Edit
+                    </button>
                 )
             },
             {
                 Header: `Delete`,
-                Cell: ({ row }) => (
-                    <button onClick={null}>
+                Cell: ({row}) => (
+                    <button id={row.original.col4} onClick={deleteUser}>
                         Delete
                     </button>
                 )
@@ -75,12 +92,12 @@ const UsersPage = () => {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data })
+    } = useTable({columns, data})
 
     return (
         <Wrapper>
             <h1>Users Page</h1>
-            <Link to="/create_user"> <Button>  Add User </Button> </Link>
+            <Link to="/create_user"> <Button> Add User </Button> </Link>
             <br/>
             <Table {...getTableProps()}>
                 <thead>

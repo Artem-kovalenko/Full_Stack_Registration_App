@@ -8,7 +8,9 @@ const saltRounds = 10;
 require('dotenv').config();
 
 const User = require("../models/User");
+
 admins.use(cors());
+
 
 admins.get('/getAdmins', (req, res) => {
     User.findAll({
@@ -21,6 +23,7 @@ admins.get('/getAdmins', (req, res) => {
             res.send(admins)
         })
 })
+
 
 admins.get('/getAdmin', (req, res) => {
     User.findOne({
@@ -62,6 +65,99 @@ admins.post('/login', (req, res) => {
     // .catch(err => {
     //     res.status(400).json({ error: err })
     // })
+})
+
+admins.post('/addUser', (req, res) => {
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
+            const today = new Date().toLocaleString()
+            const todaySubStr = today.substr(0, today.length - 3)
+            const newUserInfo = {
+                main_role: req.body.main_role,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                user_email: req.body.email,
+                password: hash,
+                created: todaySubStr
+            }
+            User.findOne({
+                where: {
+                    user_email: req.body.email
+                }
+            })
+                .then(user => {
+                    if(!user) {
+                        User.create(newUserInfo)
+                            .then(user => {
+                                res.json({errorText: user.user_email +" registered", status: "success"})
+                            })
+                            .catch(err => {
+                                res.send("error: "+ err)
+                            })
+                    } else {
+                        res.json({errorText: "This email is already registered", status: "faild"})
+                        console.log("This email is already registered")
+                    }
+                })
+                .catch(err => {
+                    res.send("error: " + err)
+                    console.log(err)
+                })
+
+
+        });
+    });
+
+})
+
+admins.post('/change', (req, res) => {
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
+            User.findOne({
+                where:{
+                    id:req.body.id
+                }
+            })
+                .then(user => {
+                    if (user) {
+
+                        User.update({
+                            first_name: req.body.first_name,
+                            last_name: req.body.last_name,
+                            user_email: req.body.user_email,
+                            password: hash
+                        }, {
+                            where: {
+                                first_name: user.dataValues.first_name,
+                                last_name: user.dataValues.last_name,
+                                user_email: user.dataValues.user_email,
+                                password: user.dataValues.password
+                            }
+                        })
+                            .then(() => {
+                                res.send("Success")
+                            })
+
+                    }
+                })
+                .catch(err => {
+                    res.send("error: " + err)
+                    console.log(err)
+                })
+        });
+    });
+
+})
+
+admins.post('/delete', (req, res) => {
+    User.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+        .then(() => {
+            res.send("Success")
+        })
 })
 
 // admins.post('/createSup', (req, res) => {
@@ -113,74 +209,4 @@ admins.post('/login', (req, res) => {
 //     });
 //
 // })
-
-admins.post('/addUser', (req, res) => {
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
-            const today = new Date().toLocaleString()
-            const todaySubStr = today.substr(0, today.length - 3)
-            const newUserInfo = {
-                main_role: req.body.main_role,
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                user_email: req.body.email,
-                password: hash,
-                created: todaySubStr
-            }
-            User.findOne({
-                where: {
-                    user_email: req.body.email
-                }
-            })
-                .then(user => {
-                    if(!user) {
-                        User.create(newUserInfo)
-                            .then(user => {
-                                res.json({errorText: user.user_email +" registered", status: "success"})
-                            })
-                            .catch(err => {
-                                res.send("error: "+ err)
-                            })
-                    } else {
-                        res.json({errorText: "This email is already registered", status: "faild"})
-                        console.log("This email is already registered")
-                    }
-                })
-                .catch(err => {
-                    res.send("error: " + err)
-                    console.log(err)
-                })
-
-
-        });
-    });
-
-})
-
-admins.post('/change', (req, res) => {
-    User.findOne({
-        where:{
-            id:req.body.id
-        }
-    })
-        .then(user => {
-           if (user) {
-
-               console.log(user.dataValues.first_name)
-
-               User.update({first_name: req.body.first_name}, {
-                   where: {
-                       first_name: user.dataValues.first_name
-                   }
-               })
-                   .then((user) => {
-                       res.send("Success")
-                   })
-           }
-        })
-        .catch(err => {
-            res.send("error: " + err)
-            console.log(err)
-        })
-})
 module.exports = admins;

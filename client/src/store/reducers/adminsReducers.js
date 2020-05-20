@@ -16,11 +16,10 @@ const adminsReducer = (state = initialState, action) => {
             }
 
         case type.SET_CURRENT_ADMIN: {
+
             return {
                 ...state,
                 currentAdmin: action.payload.currentAdmin
-
-
             }
         }
 

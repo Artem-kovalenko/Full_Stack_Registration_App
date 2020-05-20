@@ -9,9 +9,10 @@ import AdminLogin from './components/AdminLogin/adminLogin';
 import SuccessRegisterPage from "./components/SuccessRegister/successRegisterPage";
 import SuperAdminPage from "./components/SuperAdmin/superAdminPage";
 import UsersGetData from "./components/Users/usersGetData";
-import ParticipantsPage from "./components/Participants/participantsPage";
+import ParticipantsGetData from "./components/Participants/participantsGetData";
 import CreateUserPage from './components/CreateUser/createUserPage';
 import GetCurrentAdminData from "./components/EditUser/getCurrentAdminData";
+
 
 function App() {
   return (
@@ -25,9 +26,11 @@ function App() {
         <Route exact path="/admin" component={AdminLogin} />
         <Route exact path="/superAdmin_page" component={SuperAdminPage} />
         <Route exact path="/users_page" component={UsersGetData} />
-        <Route exact path="/participants_page" component={ParticipantsPage} />
+        <Route exact path="/participants_page" component={ParticipantsGetData} />
         <Route exact path="/create_user" component={CreateUserPage} />
         <Route exact path="/edit_user:id?" component={GetCurrentAdminData} />
+
+
       </div>
     </Router>
   );

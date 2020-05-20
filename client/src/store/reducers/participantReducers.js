@@ -2,7 +2,8 @@ import * as type from "../types";
 
 
 const initialState = {
-    data: {}
+    data: {},
+    particpantsArray:{}
 };
 
 const participantReducer = (state = initialState, action) => {
@@ -26,6 +27,13 @@ const participantReducer = (state = initialState, action) => {
                     ...state.data,
                     "participantInfo": action.payload.participantInfoPayload
                 }
+            }
+        }
+
+        case type.GET_PARTICIPANTS: {
+            return {
+                ...state,
+                particpantsArray: action.payload.participantsArray
             }
         }
 

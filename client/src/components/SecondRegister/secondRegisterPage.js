@@ -104,7 +104,7 @@ const SecondRegisterPage = () => {
             sex: participantInfo.gender,    
             birthday: participantInfo.birthDate,
             county_name: participantInfo.country,
-            status: "Not confirmed"
+            status: "New"
         })
         .then(res => {
             if(res.data.status === "faild") {
